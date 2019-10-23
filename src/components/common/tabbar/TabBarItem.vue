@@ -37,7 +37,7 @@
     methods:{
       btnClick(){
         try{
-          this.$router.push(this.path).catch(err => { console.log(err) })
+          this.$router.push(this.path).catch(err => {  })
         }catch (err) {
 
         }
