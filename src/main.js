@@ -7,8 +7,12 @@ import router from './router/index'
 
 Vue.config.productionTip = false
 
+//原型
+Vue.prototype.$bus=new Vue()
+
 //使用
 // NutUI.install(Vue);
+document.title = "首页"
 
 new Vue({
   render: h => h(App),
@@ -16,7 +20,7 @@ new Vue({
 }).$mount('#app')
 
 //初始化主页
-document.title = "首页"
+
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {

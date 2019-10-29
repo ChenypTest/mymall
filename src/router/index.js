@@ -57,7 +57,7 @@ const router=new Router({
     },
   ],
   mode:'history',
-  // base: '/dome/'
+  // base: '/dome01/'
 })
 
 

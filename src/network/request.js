@@ -4,10 +4,9 @@ export function request(config) {
   //1.创建axios的实例
   const instance=axios.create({
       baseURL:'http://123.207.32.32:8000',
-      timeout:5000
+      timeout:10000
     })
   //2.设置拦截器
-
   instance.interceptors.request.use(config=>{
     return config
   },error => {
