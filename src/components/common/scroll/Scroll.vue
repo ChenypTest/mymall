@@ -54,6 +54,7 @@
       },
       imgRefresh(){
         this.scroll && this.scroll.refresh()
+        // console.log('------');
       }
     }
   }

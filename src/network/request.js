@@ -1,9 +1,10 @@
 import axios from 'axios'
-//123.207.32.32.8000/api/v1/home/data
+//123.207.32.32:8000/api/v1/home/data
+//123.207.32.32:8000/api/v1/home/multidata?type=pop
 export function request(config) {
   //1.创建axios的实例
   const instance=axios.create({
-      baseURL:'http://123.207.32.32:8000',
+      baseURL:'http://106.54.54.237:8000',
       timeout:10000
     })
   //2.设置拦截器

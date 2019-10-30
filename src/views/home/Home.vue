@@ -6,6 +6,12 @@
         购物街
       </div>
     </nav-bar>
+    <tab-control  ref="tabControl1"
+                  :titles="['流行','新款','精选']"
+                  @tabClick="tabClick"
+                  class="tab-control"
+                  v-show="isTabFixed"
+    />
 
     <scroll class="content" ref="scroll"
             @scroll="contentScroll"
@@ -13,10 +19,11 @@
             :pullUpLoad="true"
             @pullUp="pullUp"
     >
-      <home-swiper :banners="banners"/>
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
       <recommend-view :recommends="recommends"/>
       <feature-view />
-      <tab-control class="tab-control" :titles="['流行','新款','精选']"
+      <tab-control  ref="tabControl2"
+                   :titles="['流行','新款','精选']"
                    @tabClick="tabClick"/>
       <goods-list :goods="goodShow"/>
     </scroll>
@@ -67,7 +74,9 @@
           'sell':{page:0,list:[]}
         },
         goodsKey:'pop',
-        isShowTop:false
+        isShowTop:false,
+        tabOffsetTop:0,
+        isTabFixed:false
       }
     },
     created() {
@@ -80,13 +89,30 @@
 
     },
     mounted() {
+      const refresh=this.debounce(this.$refs.scroll.imgRefresh,200)
+
       this.$bus.$on('itemImageLoad',()=>{
         // console.log('调用了');
-        this.$refs.scroll.imgRefresh()
+        // this.$refs.scroll.imgRefresh()
+        refresh()
       })
+      //获取当前的tabControl的offsetTop
     }
     ,
     methods:{
+      /**
+       * 防抖函数
+       */
+      debounce(func,delay){
+        let timer=null
+        return function (...args) {
+
+          if (timer) clearTimeout(timer)
+          timer=setTimeout(()=>{
+            func.apply(this,args)
+          },delay)
+        }
+      },
       //获取数据
       tabClick(index){
         // console.log(index);
@@ -101,6 +127,8 @@
             this.goodsKey='sell'
             break
         }
+        this.$refs.tabControl1.conIndex=index
+        this.$refs.tabControl2.conIndex=index
       },
       //top点击
       btnClick(){
@@ -115,6 +143,14 @@
       contentScroll(position){
         // console.log(position);
         this.isShowTop=-position.y>1000
+        this.isTabFixed=-position.y>this.tabOffsetTop
+        // console.log(this.isTabFixed);
+
+      },
+      //获取上层坐标
+      swiperImageLoad(){
+        this.tabOffsetTop=this.$refs.tabControl2.$el.offsetTop
+        // console.log(this.tabOffsetTop);
       }
       ,
       getHomeMultidata(){
@@ -148,18 +184,19 @@
   .home-nav{
     background-color: var(--color-tint);
     color: white;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 9;
+    /*position: fixed;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*z-index: 9;*/
   }
   .tab-control{
-    position: sticky;
-    top: 44px;
+    position: relative;
+    z-index: 9;
   }
   .content{
     /*height: 300px;*/
+    overflow: hidden;
     position: absolute;
     top: 44px;
     bottom: 49px;
