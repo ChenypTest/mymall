@@ -12,6 +12,7 @@ const Home=()=>import('../views/home/Home')
 const Category=()=>import('../views/category/Category')
 const Card=()=>import('../views/card/Card.vue')
 const Profile=()=>import('../views/profile/Profile')
+const Detail=()=>import('../views/detail/Detail')
 
 //1.安装插件
 vue.use(Router)
@@ -53,6 +54,13 @@ const router=new Router({
       component:Profile,
       meta:{
         title:'我的'
+      }
+    },
+    {
+      path: '/detail',
+      component:Detail,
+      meta:{
+        title:'详情'
       }
     },
   ],

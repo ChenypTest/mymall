@@ -76,7 +76,8 @@
         goodsKey:'pop',
         isShowTop:false,
         tabOffsetTop:0,
-        isTabFixed:false
+        isTabFixed:false,
+        saveY:0
       }
     },
     created() {
@@ -97,8 +98,17 @@
         refresh()
       })
       //获取当前的tabControl的offsetTop
-    }
-    ,
+    },
+    destroyed(){
+      console.log('销毁了');
+    },
+    activated(){
+      this.$refs.scroll.goTop(0,this.saveY,0)
+      this.$refs.scroll.imgRefresh()
+    },
+    deactivated(){
+      this.saveY=this.$refs.scroll.getScrollY()
+    },
     methods:{
       /**
        * 防抖函数
